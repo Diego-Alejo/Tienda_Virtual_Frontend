@@ -4,26 +4,87 @@ function crearInterfazClientes() {
     const contenedor = document.getElementById("clientes-container");
 
     contenedor.innerHTML = `
-        <div class="panel">
-            <h2>Gestión de clientes</h2>
+        <div class="module-grid">
 
-            <h3>Registrar cliente</h3>
-            <form id="form-cliente">
-                <input id="cliente-id" placeholder="ID del cliente" required>
-                <input id="cliente-nombre" placeholder="Nombre" required>
-                <input id="cliente-apellido" placeholder="Apellido" required>
-                <input id="cliente-email" type="email" placeholder="Correo electrónico" required>
-                <input id="cliente-telefono" placeholder="Teléfono" required>
-                <button type="submit">Registrar cliente</button>
-            </form>
+            <div class="panel module-panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Registrar cliente</h3>
+                        <p>Ingresa los datos para registrar un nuevo cliente.</p>
+                    </div>
+                </div>
 
-            <h3>Buscar cliente</h3>
-            <input id="buscar-cliente-id" placeholder="Ingrese el ID del cliente">
-            <button id="btn-buscar-cliente">Buscar</button>
-            <button id="btn-listar-clientes">Mostrar todos</button>
+                <form id="form-cliente" class="module-form-grid">
 
-            <div id="resultado-clientes"></div>
-            <p id="mensaje-clientes"></p>
+                    <div class="form-group">
+                        <label for="cliente-id">ID del cliente</label>
+                        <input id="cliente-id" type="text"
+                            placeholder="Ingrese el ID" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cliente-nombre">Nombre</label>
+                        <input id="cliente-nombre" type="text"
+                            placeholder="Ingrese el nombre" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cliente-apellido">Apellido</label>
+                        <input id="cliente-apellido" type="text"
+                            placeholder="Ingrese el apellido" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cliente-email">Correo electrónico</label>
+                        <input id="cliente-email" type="email"
+                            placeholder="ejemplo@correo.com" required>
+                    </div>
+
+                    <div class="form-group module-full">
+                        <label for="cliente-telefono">Teléfono</label>
+                        <input id="cliente-telefono" type="tel"
+                            placeholder="Ingrese el teléfono" required>
+                    </div>
+
+                    <div class="module-full module-actions">
+                        <button type="submit" class="btn-primary">
+                            Registrar cliente
+                        </button>
+                    </div>
+                </form>
+
+                <p id="mensaje-clientes" class="module-message"></p>
+            </div>
+
+            <div class="panel module-panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Consultar clientes</h3>
+                        <p>Busca un cliente por su número de identificación.</p>
+                    </div>
+                </div>
+
+                <div class="module-search">
+                    <input
+                        id="buscar-cliente-id"
+                        type="text"
+                        placeholder="Ingrese el ID del cliente..."
+                    >
+                </div>
+
+                <div class="module-actions">
+                    <button id="btn-buscar-cliente" class="btn-primary">
+                        Buscar cliente
+                    </button>
+
+                    <button id="btn-listar-clientes" class="btn-secondary">
+                        Mostrar todos
+                    </button>
+                </div>
+
+                <div id="resultado-clientes"></div>
+            </div>
+
         </div>
     `;
 
@@ -36,7 +97,6 @@ function crearInterfazClientes() {
     document.getElementById("btn-listar-clientes")
         .addEventListener("click", listarClientes);
 }
-
 
 async function registrarCliente(event) {
     event.preventDefault();
@@ -61,19 +121,21 @@ async function registrarCliente(event) {
         const datos = await respuesta.json();
 
         if (!respuesta.ok) {
-            throw new Error(datos.mensaje || datos.error || "No se pudo registrar el cliente.");
+            throw new Error(
+                datos.mensaje || datos.error ||
+                "No se pudo registrar el cliente."
+            );
         }
 
-        mostrarMensaje("Cliente registrado correctamente.");
+        mostrarMensaje("Cliente registrado correctamente.", "message-success");
         document.getElementById("form-cliente").reset();
 
         listarClientes();
 
     } catch (error) {
-        mostrarMensaje("Error: " + error.message);
+        mostrarMensaje("Error: " + error.message, "message-error");
     }
 }
-
 
 async function listarClientes() {
     try {
@@ -87,16 +149,15 @@ async function listarClientes() {
         mostrarClientes(clientes);
 
     } catch (error) {
-        mostrarMensaje("Error: " + error.message);
+        mostrarMensaje("Error: " + error.message, "message-error");
     }
 }
-
 
 async function buscarCliente() {
     const id = document.getElementById("buscar-cliente-id").value.trim();
 
     if (!id) {
-        mostrarMensaje("Escriba el ID del cliente.");
+        mostrarMensaje("Escriba el ID del cliente.", "message-error");
         return;
     }
 
@@ -110,34 +171,55 @@ async function buscarCliente() {
         }
 
         const cliente = await respuesta.json();
+
         mostrarClientes(Array.isArray(cliente) ? cliente : [cliente]);
+        mostrarMensaje("Consulta realizada correctamente.", "message-success");
 
     } catch (error) {
-        mostrarMensaje("Error: " + error.message);
+        mostrarMensaje("Error: " + error.message, "message-error");
     }
 }
-
 
 function mostrarClientes(clientes) {
     const resultado = document.getElementById("resultado-clientes");
 
     if (!Array.isArray(clientes) || clientes.length === 0) {
-        resultado.textContent = "No se encontraron clientes.";
+        resultado.innerHTML = `
+            <div class="module-empty">
+                No se encontraron clientes.
+            </div>
+        `;
         return;
     }
 
     resultado.innerHTML = `
-        <h3>Resultados</h3>
-        ${clientes.map(cliente => `
-            <article>
-                <p><strong>ID:</strong> ${escaparHTML(cliente.cliente_id)}</p>
-                <p><strong>Nombre:</strong> ${escaparHTML(cliente.nombre)}</p>
-                <p><strong>Apellido:</strong> ${escaparHTML(cliente.apellido)}</p>
-                <p><strong>Email:</strong> ${escaparHTML(cliente.email)}</p>
-                <p><strong>Teléfono:</strong> ${escaparHTML(cliente.telefono)}</p>
-                <hr>
-            </article>
-        `).join("")}
+        <h3>Resultados (${clientes.length})</h3>
+
+        <div class="module-table-wrapper">
+            <table class="module-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Correo electrónico</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    ${clientes.map(cliente => `
+                        <tr>
+                            <td>${escaparHTML(cliente.cliente_id)}</td>
+                            <td>${escaparHTML(cliente.nombre)}</td>
+                            <td>${escaparHTML(cliente.apellido)}</td>
+                            <td>${escaparHTML(cliente.email)}</td>
+                            <td>${escaparHTML(cliente.telefono)}</td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+        </div>
     `;
 }
 
@@ -151,8 +233,15 @@ function escaparHTML(valor) {
     })[caracter]);
 }
 
-function mostrarMensaje(mensaje) {
-    document.getElementById("mensaje-clientes").textContent = mensaje;
+function mostrarMensaje(mensaje, tipo) {
+    const elemento = document.getElementById("mensaje-clientes");
+
+    elemento.textContent = mensaje;
+    elemento.className = `module-message ${tipo}`;
 }
 
-document.addEventListener("DOMContentLoaded", crearInterfazClientes);
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", crearInterfazClientes);
+} else {
+    crearInterfazClientes();
+}
