@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Virtual | Panel de administración</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">T</div>
+            <div>
+                <h2>Tienda Virtual</h2>
+                <span>Panel administrativo</span>
+            </div>
+        </div>
+
+        <nav class="navigation">
+            <span class="nav-label">MENÚ PRINCIPAL</span>
+
+            <button class="nav-item active" data-section="inicio">
+                <span>⌂</span> Inicio
+            </button>
+
+            <button class="nav-item" data-section="productos">
+                <span>▣</span> Productos
+            </button>
+
+            <button class="nav-item" data-section="inventario">
+                <span>▤</span> Inventario
+            </button>
+
+            <button class="nav-item" data-section="clientes">
+                <span>♙</span> Clientes
+            </button>
+
+            <button class="nav-item" data-section="ventas">
+                <span>＄</span> Ventas
+            </button>
+
+            <button class="nav-item" data-section="pedidos">
+                <span>▧</span> Pedidos
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="status-indicator"></div>
+            <div>
+                <strong>Sistema conectado</strong>
+                <small>API local</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <span class="breadcrumb">Administración / <strong id="current-page">Inicio</strong></span>
+            </div>
+            <div class="topbar-right">
+                <span class="date-label" id="current-date"></span>
+                <div class="avatar">TV</div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <section id="section-inicio" class="page-section active">
+                <div class="welcome">
+                    <div>
+                        <span class="eyebrow">PANEL DE CONTROL</span>
+                        <h1>Bienvenido a tu tienda</h1>
+                        <p>Administra productos, inventario, clientes y ventas desde un solo lugar.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-icon blue">▣</div>
+                        <div>
+                            <span>Productos</span>
+                            <h2 id="stat-productos">—</h2>
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-icon orange">▤</div>
+                        <div>
+                            <span>Unidades en inventario</span>
+                            <h2 id="stat-stock">—</h2>
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-icon green">♙</div>
+                        <div>
+                            <span>Clientes registrados</span>
+                            <h2 id="stat-clientes">—</h2>
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-icon purple">＄</div>
+                        <div>
+                            <span>Ventas registradas</span>
+                            <h2 id="stat-ventas">—</h2>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="dashboard-grid">
+                    <article class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h3>Accesos rápidos</h3>
+                                <p>Operaciones frecuentes</p>
+                            </div>
+                        </div>
+
+                        <div class="quick-actions">
+                            <button class="quick-action" data-go="ventas">
+                                <span class="quick-icon green">＋</span>
+                                <div><strong>Nueva venta</strong><small>Registrar una venta</small></div>
+                            </button>
+
+                            <button class="quick-action" data-go="productos">
+                                <span class="quick-icon blue">▣</span>
+                                <div><strong>Productos</strong><small>Administrar catálogo</small></div>
+                            </button>
+
+                            <button class="quick-action" data-go="clientes">
+                                <span class="quick-icon purple">♙</span>
+                                <div><strong>Clientes</strong><small>Consultar clientes</small></div>
+                            </button>
+
+                            <button class="quick-action" data-go="pedidos">
+                                <span class="quick-icon orange">▧</span>
+                                <div><strong>Pedidos</strong><small>Ver historial</small></div>
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h3>Estado del sistema</h3>
+                                <p>Conexión con el backend</p>
+                            </div>
+                        </div>
+
+                        <div id="connection-status" class="connection-box">
+                            <div class="status-indicator"></div>
+                            <span>Verificando conexión...</span>
+                        </div>
+
+                        <p class="system-info">
+                            Backend: <code>localhost:8080</code><br>
+                            Base de datos: SQL Server
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <section id="section-productos" class="page-section">
+                <div class="section-heading">
+                    <h1>Productos</h1>
+                    <p>Gestiona el catálogo de productos.</p>
+                </div>
+                <div id="productos-container"></div>
+            </section>
+
+            <section id="section-inventario" class="page-section">
+                <div class="section-heading">
+                    <h1>Inventario</h1>
+                    <p>Consulta las existencias disponibles.</p>
+                </div>
+                <div id="inventario-container"></div>
+            </section>
+
+            <section id="section-clientes" class="page-section">
+                <div class="section-heading">
+                    <h1>Clientes</h1>
+                    <p>Registro y consulta de clientes.</p>
+                </div>
+                <div id="clientes-container"></div>
+            </section>
+
+            <section id="section-ventas" class="page-section">
+                <div class="section-heading">
+                    <h1>Nueva venta</h1>
+                    <p>Registra ventas y actualiza el inventario automáticamente.</p>
+                </div>
+                <div id="ventas-container"></div>
+            </section>
+
+            <section id="section-pedidos" class="page-section">
+                <div class="section-heading">
+                    <h1>Pedidos</h1>
+                    <p>Consulta pedidos y el historial de ventas.</p>
+                </div>
+                <div id="pedidos-container"></div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/productos.js"></script>
+    <script src="js/stock.js"></script>
+    <script src="js/clientes.js"></script>
+    <script src="js/pedidos.js"></script>
+    <script src="js/ventas.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
