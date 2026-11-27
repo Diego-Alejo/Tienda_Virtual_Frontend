@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const botones = document.querySelectorAll(".nav-item");
     const paginas = document.querySelectorAll(".page-section");
@@ -68,7 +67,8 @@ async function verificarConexion() {
 
         document.getElementById("stat-stock").textContent =
             Array.isArray(stock)
-                ? stock.reduce((total, item) => total + Number(item.cantidad || 0), 0)
+                ? stock.reduce(
+                (total, item) => total + Number(item.cantidad_disponible || 0),0)
                 : "—";
 
         document.getElementById("stat-clientes").textContent =

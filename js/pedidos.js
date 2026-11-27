@@ -3,8 +3,10 @@ let pedidosCargados = [];
 
 // Crear la interfaz de pedidos
 function crearInterfazPedidos() {
-    document.body.insertAdjacentHTML("beforeend", `
-        <section id="seccion-pedidos">
+    const contenedor = document.getElementById("pedidos-container");
+
+    contenedor.innerHTML = `
+        <div class="panel">
             <h2>Historial de ventas y pedidos</h2>
 
             <button id="btn-historial-ventas">
@@ -21,8 +23,8 @@ function crearInterfazPedidos() {
 
             <div id="resultado-pedidos"></div>
             <p id="mensaje-pedidos"></p>
-        </section>
-    `);
+        </div>
+    `;
 
     document.getElementById("btn-historial-ventas")
         .addEventListener("click", consultarHistorialVentas);
@@ -176,7 +178,9 @@ function escaparTexto(valor) {
 function mostrarMensajePedido(mensaje) {
     document.getElementById("mensaje-pedidos").textContent = mensaje;
 }
-
+function listarPedidos() {
+    consultarHistorialVentas();
+}
 // Iniciar la interfaz
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", crearInterfazPedidos);

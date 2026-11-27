@@ -1,4 +1,3 @@
-
 const API_BASE_URL = "http://localhost:8080/api";
 
 async function apiRequest(endpoint, options = {}) {
@@ -41,41 +40,72 @@ async function apiRequest(endpoint, options = {}) {
 const API = {
     productos: {
         listar: () => apiRequest("/productos"),
-        buscar: (id) => apiRequest(`/productos?id=${encodeURIComponent(id)}`),
-        crear: (producto) => apiRequest("/productos", {
-            method: "POST",
-            body: producto
-        }),
-        eliminar: (id) => apiRequest(`/productos?id=${encodeURIComponent(id)}`, {
-            method: "DELETE"
-        })
+
+        buscar: (id) =>
+            apiRequest(`/productos?id=${encodeURIComponent(id)}`),
+
+        crear: (producto) =>
+            apiRequest("/productos", {
+                method: "POST",
+                body: producto
+            }),
+
+        actualizar: (id, producto) =>
+            apiRequest(`/productos?id=${encodeURIComponent(id)}`, {
+                method: "PUT",
+                body: producto
+            }),
+
+        eliminar: (id) =>
+            apiRequest(`/productos?id=${encodeURIComponent(id)}`, {
+                method: "DELETE"
+            })
     },
 
     stock: {
         listar: () => apiRequest("/stock"),
+
         buscar: (productoId) =>
-            apiRequest(`/stock?producto_id=${encodeURIComponent(productoId)}`)
+            apiRequest(`/stock?producto_id=${encodeURIComponent(productoId)}`),
+
+        actualizar: (productoId, cantidad) =>
+            apiRequest("/stock", {
+                method: "PUT",
+                body: {
+                    producto_id: productoId,
+                    cantidad: cantidad
+                }
+            })
     },
 
     clientes: {
         listar: () => apiRequest("/clientes"),
-        buscar: (id) => apiRequest(`/clientes?id=${encodeURIComponent(id)}`),
-        crear: (cliente) => apiRequest("/clientes", {
-            method: "POST",
-            body: cliente
-        })
+
+        buscar: (id) =>
+            apiRequest(`/clientes?id=${encodeURIComponent(id)}`),
+
+        crear: (cliente) =>
+            apiRequest("/clientes", {
+                method: "POST",
+                body: cliente
+            })
     },
 
     ventas: {
         listar: () => apiRequest("/ventas"),
-        crear: (venta) => apiRequest("/ventas", {
-            method: "POST",
-            body: venta
-        })
+
+        crear: (venta) =>
+            apiRequest("/ventas", {
+                method: "POST",
+                body: venta
+            })
     },
 
     pedidos: {
         listar: () => apiRequest("/pedidos"),
-        buscar: (id) => apiRequest(`/pedidos?id=${encodeURIComponent(id)}`)
+
+        buscar: (id) =>
+            apiRequest(`/pedidos?id=${encodeURIComponent(id)}`)
     }
 };
+

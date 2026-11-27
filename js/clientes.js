@@ -1,8 +1,10 @@
 const API_URL = "http://localhost:8080/api/clientes";
 
 function crearInterfazClientes() {
-    document.body.insertAdjacentHTML("beforeend", `
-        <section id="seccion-clientes">
+    const contenedor = document.getElementById("clientes-container");
+
+    contenedor.innerHTML = `
+        <div class="panel">
             <h2>Gestión de clientes</h2>
 
             <h3>Registrar cliente</h3>
@@ -22,8 +24,8 @@ function crearInterfazClientes() {
 
             <div id="resultado-clientes"></div>
             <p id="mensaje-clientes"></p>
-        </section>
-    `);
+        </div>
+    `;
 
     document.getElementById("form-cliente")
         .addEventListener("submit", registrarCliente);
