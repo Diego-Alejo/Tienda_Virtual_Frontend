@@ -1,212 +1,497 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Virtual | Panel de administración</title>
+    <title>Tienda Virtual | Panel de administración y Tienda para Clientes</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/portal-cliente.css">
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="brand">
-            <div class="brand-icon">T</div>
-            <div>
-                <h2>Tienda Virtual</h2>
-                <span>Panel administrativo</span>
+    <!-- ========================================================
+         VISTA 1: PANEL ADMINISTRATIVO (ORIGINAL PRESERVADO)
+         ======================================================== -->
+    <div id="portal-admin">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">T</div>
+                <div>
+                    <h2>Tienda Virtual</h2>
+                    <span>Panel administrativo</span>
+                </div>
             </div>
-        </div>
 
-        <nav class="navigation">
-            <span class="nav-label">MENÚ PRINCIPAL</span>
+            <nav class="navigation">
+                <span class="nav-label">MENÚ PRINCIPAL</span>
 
-            <button class="nav-item active" data-section="inicio">
-                <span>⌂</span> Inicio
-            </button>
+                <button class="nav-item active" data-section="inicio">
+                    <span>⌂</span> Inicio
+                </button>
 
-            <button class="nav-item" data-section="productos">
-                <span>▣</span> Productos
-            </button>
+                <button class="nav-item" data-section="productos">
+                    <span>▣</span> Productos
+                </button>
 
-            <button class="nav-item" data-section="inventario">
-                <span>▤</span> Inventario
-            </button>
+                <button class="nav-item" data-section="inventario">
+                    <span>▤</span> Inventario
+                </button>
 
-            <button class="nav-item" data-section="clientes">
-                <span>♙</span> Clientes
-            </button>
+                <button class="nav-item" data-section="clientes">
+                    <span>♙</span> Clientes
+                </button>
 
-            <button class="nav-item" data-section="ventas">
-                <span>＄</span> Ventas
-            </button>
+                <button class="nav-item" data-section="ventas">
+                    <span>＄</span> Ventas
+                </button>
 
-            <button class="nav-item" data-section="pedidos">
-                <span>▧</span> Pedidos
-            </button>
-        </nav>
+                <button class="nav-item" data-section="pedidos">
+                    <span>▧</span> Pedidos
+                </button>
 
-        <div class="sidebar-footer">
-            <div class="status-indicator"></div>
-            <div>
-                <strong>Sistema conectado</strong>
-                <small>API local</small>
+                <!-- Acceso directo al Portal de Clientes desde el sidebar -->
+                <button class="nav-item nav-item-cliente" id="btn-sidebar-cliente" type="button" title="Acceder a la tienda virtual para clientes">
+                    <span>🛍️</span> Portal Clientes
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="status-indicator"></div>
+                <div>
+                    <strong>Sistema conectado</strong>
+                    <small>API local</small>
+                </div>
             </div>
-        </div>
-    </aside>
+        </aside>
 
-    <main class="main-content">
-        <header class="topbar">
-            <div>
-                <span class="breadcrumb">Administración / <strong id="current-page">Inicio</strong></span>
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <span class="breadcrumb">Administración / <strong id="current-page">Inicio</strong></span>
+                </div>
+                <div class="topbar-right">
+                    <!-- Botón destacado de conmutación al Portal de Clientes -->
+                    <button id="btn-cambiar-a-cliente" class="btn-portal-switch" type="button" title="Ver la tienda como cliente comprador">
+                        <span>🛍️</span> Portal de Clientes
+                    </button>
+                    <span class="date-label" id="current-date"></span>
+                    <div class="avatar">TV</div>
+                </div>
+            </header>
+
+            <div class="content">
+
+                <section id="section-inicio" class="page-section active">
+                    <div class="welcome">
+                        <div>
+                            <span class="eyebrow">PANEL DE CONTROL</span>
+                            <h1>Bienvenido a tu tienda</h1>
+                            <p>Administra productos, inventario, clientes y ventas desde un solo lugar.</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <article class="stat-card">
+                            <div class="stat-icon blue">▣</div>
+                            <div>
+                                <span>Productos</span>
+                                <h2 id="stat-productos">—</h2>
+                            </div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-icon orange">▤</div>
+                            <div>
+                                <span>Unidades en inventario</span>
+                                <h2 id="stat-stock">—</h2>
+                            </div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-icon green">♙</div>
+                            <div>
+                                <span>Clientes registrados</span>
+                                <h2 id="stat-clientes">—</h2>
+                            </div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-icon purple">＄</div>
+                            <div>
+                                <span>Ventas registradas</span>
+                                <h2 id="stat-ventas">—</h2>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <article class="panel">
+                            <div class="panel-header">
+                                <div>
+                                    <h3>Accesos rápidos</h3>
+                                    <p>Operaciones frecuentes</p>
+                                </div>
+                            </div>
+
+                            <div class="quick-actions">
+                                <button class="quick-action" data-go="ventas">
+                                    <span class="quick-icon green">＋</span>
+                                    <div><strong>Nueva venta</strong><small>Registrar una venta</small></div>
+                                </button>
+
+                                <button class="quick-action" data-go="productos">
+                                    <span class="quick-icon blue">▣</span>
+                                    <div><strong>Productos</strong><small>Administrar catálogo</small></div>
+                                </button>
+
+                                <button class="quick-action" data-go="clientes">
+                                    <span class="quick-icon purple">♙</span>
+                                    <div><strong>Clientes</strong><small>Consultar clientes</small></div>
+                                </button>
+
+                                <button class="quick-action" data-go="pedidos">
+                                    <span class="quick-icon orange">▧</span>
+                                    <div><strong>Pedidos</strong><small>Ver historial</small></div>
+                                </button>
+
+                                <button class="quick-action" id="quick-action-cliente" type="button" style="border-color: #bfdbfe; background: #eff6ff;">
+                                    <span class="quick-icon blue">🛍️</span>
+                                    <div><strong>Portal Clientes</strong><small>Comprar como cliente</small></div>
+                                </button>
+                            </div>
+                        </article>
+
+                        <article class="panel">
+                            <div class="panel-header">
+                                <div>
+                                    <h3>Estado del sistema</h3>
+                                    <p>Conexión con el backend</p>
+                                </div>
+                            </div>
+
+                            <div id="connection-status" class="connection-box">
+                                <div class="status-indicator"></div>
+                                <span>Verificando conexión...</span>
+                            </div>
+
+                            <p class="system-info">
+                                Backend: <code>localhost:8080</code><br>
+                                Base de datos: SQL Server
+                            </p>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="section-productos" class="page-section">
+                    <div class="section-heading">
+                        <h1>Productos</h1>
+                        <p>Gestiona el catálogo de productos.</p>
+                    </div>
+                    <div id="productos-container"></div>
+                </section>
+
+                <section id="section-inventario" class="page-section">
+                    <div class="section-heading">
+                        <h1>Inventario</h1>
+                        <p>Consulta las existencias disponibles.</p>
+                    </div>
+                    <div id="inventario-container"></div>
+                </section>
+
+                <section id="section-clientes" class="page-section">
+                    <div class="section-heading">
+                        <h1>Clientes</h1>
+                        <p>Registro y consulta de clientes.</p>
+                    </div>
+                    <div id="clientes-container"></div>
+                </section>
+
+                <section id="section-ventas" class="page-section">
+                    <div class="section-heading">
+                        <h1>Nueva venta</h1>
+                        <p>Registra ventas y actualiza el inventario automáticamente.</p>
+                    </div>
+                    <div id="ventas-container"></div>
+                </section>
+
+                <section id="section-pedidos" class="page-section">
+                    <div class="section-heading">
+                        <h1>Pedidos</h1>
+                        <p>Consulta pedidos y el historial de ventas.</p>
+                    </div>
+                    <div id="pedidos-container"></div>
+                </section>
+
             </div>
-            <div class="topbar-right">
-                <span class="date-label" id="current-date"></span>
-                <div class="avatar">TV</div>
-            </div>
-        </header>
+        </main>
+    </div>
 
-        <div class="content">
-
-            <section id="section-inicio" class="page-section active">
-                <div class="welcome">
-                    <div>
-                        <span class="eyebrow">PANEL DE CONTROL</span>
-                        <h1>Bienvenido a tu tienda</h1>
-                        <p>Administra productos, inventario, clientes y ventas desde un solo lugar.</p>
+    <!-- ========================================================
+         VISTA 2: PORTAL DE CLIENTES (NUEVA VISTA PARA COMPRADORES)
+         ======================================================== -->
+    <div id="portal-cliente">
+        <!-- Barra de navegación del cliente -->
+        <header class="cliente-navbar">
+            <div class="cliente-navbar-inner">
+                <div class="cliente-brand" onclick="window.cambiarSeccionCliente('catalogo')">
+                    <div class="cliente-brand-icon">T</div>
+                    <div class="cliente-brand-text">
+                        <h2>Tienda Virtual</h2>
+                        <span class="cliente-brand-badge">Acceso Clientes</span>
                     </div>
                 </div>
 
-                <div class="stats-grid">
-                    <article class="stat-card">
-                        <div class="stat-icon blue">▣</div>
-                        <div>
-                            <span>Productos</span>
-                            <h2 id="stat-productos">—</h2>
-                        </div>
-                    </article>
+                <nav class="cliente-nav-links">
+                    <button class="cliente-nav-link active" data-cliente-tab="catalogo" type="button">
+                        <span>🏪</span> Catálogo de Productos
+                    </button>
+                    <button class="cliente-nav-link" data-cliente-tab="pedidos" type="button">
+                        <span>📦</span> Mis Pedidos
+                    </button>
+                </nav>
 
-                    <article class="stat-card">
-                        <div class="stat-icon orange">▤</div>
-                        <div>
-                            <span>Unidades en inventario</span>
-                            <h2 id="stat-stock">—</h2>
-                        </div>
-                    </article>
+                <div class="cliente-navbar-actions">
+                    <!-- Botón de Carrito con Contador dinámico -->
+                    <button class="btn-cliente-carrito" id="btn-abrir-carrito" type="button" title="Ver carrito de compras">
+                        <span>🛒</span>
+                        <span>Carrito</span>
+                        <span class="carrito-badge">0</span>
+                    </button>
 
-                    <article class="stat-card">
-                        <div class="stat-icon green">♙</div>
-                        <div>
-                            <span>Clientes registrados</span>
-                            <h2 id="stat-clientes">—</h2>
-                        </div>
-                    </article>
+                    <!-- Botón de Cuenta / Iniciar Sesión / Perfil -->
+                    <button class="btn-cliente-auth" id="btn-cliente-auth-nav" type="button">
+                        <span>👤</span>
+                        <span>Ingresar</span>
+                    </button>
 
-                    <article class="stat-card">
-                        <div class="stat-icon purple">＄</div>
-                        <div>
-                            <span>Ventas registradas</span>
-                            <h2 id="stat-ventas">—</h2>
-                        </div>
-                    </article>
+                    <!-- Botón para regresar al Panel de Administración -->
+                    <button class="btn-admin-switch" id="btn-cambiar-a-admin" type="button" title="Regresar al panel de control administrativo">
+                        <span>⚙️</span> Panel Admin
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero / Banner de Bienvenida al Cliente -->
+        <section class="cliente-hero">
+            <div class="cliente-hero-inner">
+                <div class="cliente-hero-content">
+                    <div class="cliente-hero-eyebrow">
+                        <span>⚡</span> Compras en línea seguras
+                    </div>
+                    <h1 class="cliente-hero-title">Tu Tienda Virtual Favorita</h1>
+                    <p class="cliente-hero-desc">
+                        Explora nuestro catálogo de productos en tiempo real, añade tus artículos favoritos al carrito y realiza tus pedidos fácilmente desde tu cuenta de cliente.
+                    </p>
+                    <div class="cliente-hero-badges">
+                        <span class="cliente-hero-badge">✓ Envío nacional directo</span>
+                        <span class="cliente-hero-badge">✓ Control de inventario en vivo</span>
+                        <span class="cliente-hero-badge">✓ Historial de pedidos personal</span>
+                    </div>
                 </div>
 
-                <div class="dashboard-grid">
-                    <article class="panel">
-                        <div class="panel-header">
-                            <div>
-                                <h3>Accesos rápidos</h3>
-                                <p>Operaciones frecuentes</p>
-                            </div>
-                        </div>
+                <div class="cliente-hero-session-status" id="cliente-hero-session-status">
+                    <!-- Se llena dinámicamente con estado de sesión -->
+                </div>
+            </div>
+        </section>
 
-                        <div class="quick-actions">
-                            <button class="quick-action" data-go="ventas">
-                                <span class="quick-icon green">＋</span>
-                                <div><strong>Nueva venta</strong><small>Registrar una venta</small></div>
-                            </button>
+        <!-- Contenedor de contenido para el cliente -->
+        <main class="cliente-container">
 
-                            <button class="quick-action" data-go="productos">
-                                <span class="quick-icon blue">▣</span>
-                                <div><strong>Productos</strong><small>Administrar catálogo</small></div>
-                            </button>
+            <!-- Pestaña 1: Catálogo de Productos -->
+            <section id="cliente-seccion-catalogo" class="cliente-view-section active">
+                <div class="cliente-toolbar">
+                    <div class="cliente-search-box">
+                        <span class="cliente-search-icon">🔍</span>
+                        <input type="text" id="cliente-buscar-input" placeholder="Buscar productos por nombre, código o descripción...">
+                    </div>
 
-                            <button class="quick-action" data-go="clientes">
-                                <span class="quick-icon purple">♙</span>
-                                <div><strong>Clientes</strong><small>Consultar clientes</small></div>
-                            </button>
+                    <div class="cliente-filter-options">
+                        <button type="button" class="cliente-filter-btn active" data-filtro-stock="todos">
+                            Todos
+                        </button>
+                        <button type="button" class="cliente-filter-btn" data-filtro-stock="disponibles">
+                            Solo Disponibles
+                        </button>
+                        <button type="button" class="cliente-filter-btn" data-filtro-stock="agotados">
+                            Agotados
+                        </button>
 
-                            <button class="quick-action" data-go="pedidos">
-                                <span class="quick-icon orange">▧</span>
-                                <div><strong>Pedidos</strong><small>Ver historial</small></div>
-                            </button>
-                        </div>
-                    </article>
+                        <select id="cliente-ordenar-select" class="cliente-sort-select">
+                            <option value="defecto">Ordenar por: Predeterminado</option>
+                            <option value="menor">Precio: Menor a Mayor</option>
+                            <option value="mayor">Precio: Mayor a Menor</option>
+                            <option value="az">Nombre: A a la Z</option>
+                        </select>
+                    </div>
+                </div>
 
-                    <article class="panel">
-                        <div class="panel-header">
-                            <div>
-                                <h3>Estado del sistema</h3>
-                                <p>Conexión con el backend</p>
-                            </div>
-                        </div>
-
-                        <div id="connection-status" class="connection-box">
-                            <div class="status-indicator"></div>
-                            <span>Verificando conexión...</span>
-                        </div>
-
-                        <p class="system-info">
-                            Backend: <code>localhost:8080</code><br>
-                            Base de datos: SQL Server
-                        </p>
-                    </article>
+                <!-- Grid donde se inyectan las tarjetas de productos -->
+                <div id="cliente-productos-grid" class="cliente-productos-grid">
+                    <!-- Dinámico vía portal-cliente.js -->
                 </div>
             </section>
 
-            <section id="section-productos" class="page-section">
-                <div class="section-heading">
-                    <h1>Productos</h1>
-                    <p>Gestiona el catálogo de productos.</p>
+            <!-- Pestaña 2: Historial "Mis Pedidos" -->
+            <section id="cliente-seccion-pedidos" class="cliente-view-section">
+                <div class="cliente-pedidos-header">
+                    <div>
+                        <h2>Mis Pedidos y Compras</h2>
+                        <p>Historial detallado de tus pedidos realizados en la tienda.</p>
+                    </div>
+                    <button class="btn-secondary" type="button" onclick="window.cargarMisPedidosCliente()">
+                        Actualizar pedidos
+                    </button>
                 </div>
-                <div id="productos-container"></div>
-            </section>
 
-            <section id="section-inventario" class="page-section">
-                <div class="section-heading">
-                    <h1>Inventario</h1>
-                    <p>Consulta las existencias disponibles.</p>
+                <div id="cliente-pedidos-contenedor">
+                    <!-- Dinámico vía portal-cliente.js -->
                 </div>
-                <div id="inventario-container"></div>
             </section>
+        </main>
+    </div>
 
-            <section id="section-clientes" class="page-section">
-                <div class="section-heading">
-                    <h1>Clientes</h1>
-                    <p>Registro y consulta de clientes.</p>
+    <!-- ========================================================
+         MODAL: CARRITO DE COMPRAS DEL CLIENTE
+         ======================================================== -->
+    <div class="modal-overlay" id="modal-carrito">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>🛒 Tu Carrito de Compras</h3>
+                <button class="modal-close-btn" id="btn-cerrar-carrito" type="button">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div id="carrito-items-contenedor" class="carrito-items-list">
+                    <!-- Ítems del carrito dinámicos -->
                 </div>
-                <div id="clientes-container"></div>
-            </section>
 
-            <section id="section-ventas" class="page-section">
-                <div class="section-heading">
-                    <h1>Nueva venta</h1>
-                    <p>Registra ventas y actualiza el inventario automáticamente.</p>
+                <div class="carrito-resumen">
+                    <div class="carrito-resumen-fila">
+                        <span>Subtotal de productos:</span>
+                        <strong id="carrito-subtotal-val">$ 0</strong>
+                    </div>
+                    <div class="carrito-resumen-fila">
+                        <span>Costo de envío:</span>
+                        <strong style="color: #16a34a;">Gratis</strong>
+                    </div>
+                    <div class="carrito-resumen-total">
+                        <span>Total a pagar:</span>
+                        <span id="carrito-total-val">$ 0</span>
+                    </div>
                 </div>
-                <div id="ventas-container"></div>
-            </section>
 
-            <section id="section-pedidos" class="page-section">
-                <div class="section-heading">
-                    <h1>Pedidos</h1>
-                    <p>Consulta pedidos y el historial de ventas.</p>
+                <div class="carrito-envio-form">
+                    <label for="carrito-direccion-envio">Dirección de entrega del pedido *</label>
+                    <input type="text" id="carrito-direccion-envio" placeholder="Ej: Cra 15 # 85-30, Apto 402, Bogotá" required>
                 </div>
-                <div id="pedidos-container"></div>
-            </section>
 
+                <button class="btn-confirmar-pedido" id="btn-confirmar-pedido" type="button">
+                    <span>✓</span> Confirmar y Realizar Pedido
+                </button>
+            </div>
         </div>
-    </main>
+    </div>
 
+    <!-- ========================================================
+         MODAL: ACCESO Y REGISTRO DE CLIENTES
+         ======================================================== -->
+    <div class="modal-overlay" id="modal-auth-cliente">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Acceso para Clientes</h3>
+                <button class="modal-close-btn" id="btn-cerrar-auth" type="button">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <p id="auth-mensaje-aviso" style="display: none; background: #eff6ff; color: #1e40af; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; border: 1px solid #bfdbfe;"></p>
+
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="tab-auth-login" type="button">Iniciar Sesión</button>
+                    <button class="auth-tab-btn" id="tab-auth-registro" type="button">Registrarme</button>
+                </div>
+
+                <!-- Formulario 1: Iniciar Sesión -->
+                <div class="auth-form-view active" id="view-auth-login">
+                    <form id="form-cliente-login">
+                        <div class="auth-field">
+                            <label for="login-cliente-id">Correo o ID de Cliente *</label>
+                            <input type="text" id="login-cliente-id" placeholder="Ej. carlos@correo.com o CLI001" required>
+                        </div>
+
+                        <div class="auth-field">
+                            <label for="login-cliente-pass">Contraseña</label>
+                            <input type="password" id="login-cliente-pass" placeholder="Ingresa tu contraseña" required>
+                        </div>
+
+                        <button type="submit" class="auth-submit-btn">Ingresar como Cliente</button>
+
+                        <div class="auth-demo-box">
+                            <strong>💡 Clientes de demostración rápida:</strong>
+                            <span>Haz clic para ingresar instantáneamente con una cuenta demo:</span>
+                            <div class="auth-demo-chips">
+                                <button type="button" class="auth-demo-chip" onclick="demoLogin('CLI001')">Carlos Rodríguez (CLI001)</button>
+                                <button type="button" class="auth-demo-chip" onclick="demoLogin('CLI002')">Ana María Gómez (CLI002)</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Formulario 2: Registrarse -->
+                <div class="auth-form-view" id="view-auth-registro">
+                    <form id="form-cliente-registro">
+                        <div class="auth-grid-2">
+                            <div class="auth-field">
+                                <label for="reg-cliente-id">ID / Cédula *</label>
+                                <input type="text" id="reg-cliente-id" placeholder="Ej: CLI003 o 10203040" required>
+                            </div>
+
+                            <div class="auth-field">
+                                <label for="reg-cliente-telefono">Teléfono *</label>
+                                <input type="tel" id="reg-cliente-telefono" placeholder="3001234567" required>
+                            </div>
+                        </div>
+
+                        <div class="auth-grid-2">
+                            <div class="auth-field">
+                                <label for="reg-cliente-nombre">Nombres *</label>
+                                <input type="text" id="reg-cliente-nombre" placeholder="Nombre" required>
+                            </div>
+
+                            <div class="auth-field">
+                                <label for="reg-cliente-apellido">Apellidos *</label>
+                                <input type="text" id="reg-cliente-apellido" placeholder="Apellido" required>
+                            </div>
+                        </div>
+
+                        <div class="auth-field">
+                            <label for="reg-cliente-email">Correo Electrónico *</label>
+                            <input type="email" id="reg-cliente-email" placeholder="cliente@correo.com" required>
+                        </div>
+
+                        <div class="auth-field">
+                            <label for="reg-cliente-direccion">Dirección de Entrega</label>
+                            <input type="text" id="reg-cliente-direccion" placeholder="Calle / Carrera / Apartamento / Ciudad">
+                        </div>
+
+                        <div class="auth-field">
+                            <label for="reg-cliente-pass">Contraseña *</label>
+                            <input type="password" id="reg-cliente-pass" placeholder="Crea una contraseña segura" required>
+                        </div>
+
+                        <button type="submit" class="auth-submit-btn" id="btn-submit-registro">Crear Cuenta de Cliente</button>
+
+                        <p style="font-size: 11px; color: #64748b; margin-top: 10px; text-align: center;">
+                            Al registrarte, tus datos se sincronizan con la base de datos de clientes del sistema.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts del proyecto (Originales + Portal Cliente) -->
     <script src="js/api.js"></script>
     <script src="js/productos.js"></script>
     <script src="js/stock.js"></script>
@@ -214,6 +499,7 @@
     <script src="js/pedidos.js"></script>
     <script src="js/ventas.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/portal-cliente.js"></script>
 
 </body>
 </html>
